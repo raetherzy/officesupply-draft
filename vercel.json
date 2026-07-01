@@ -1,6 +1,0 @@
-{
-  "rootDirectory": "buyer-dashboard",
-  "framework": "nextjs",
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next"
-}
