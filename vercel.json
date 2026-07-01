@@ -1,6 +1,3 @@
 {
-  "buildCommand": "cd buyer-dashboard && npm run build",
-  "outputDirectory": "buyer-dashboard/.next",
-  "installCommand": "cd buyer-dashboard && npm install",
-  "framework": "nextjs"
+  "rootDirectory": "buyer-dashboard"
 }
