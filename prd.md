@@ -99,7 +99,7 @@ Sistem mendukung siklus lengkap:
 
 | Role | Fungsi Utama | Hak Akses Spesifik |
 |---|---|---|
-| **HeadPurchasing User** | Manager dan Verifikator SO, RFQ, Quotation dari website, serta kelola user buyer. | Menyetujui/menolak SO dan Quotation, mengelola user buyer, serta dapat membuat SO/RFQ apabila perusahaan Buyer menggunakan **Skema 2 Role** tanpa AdminPurchasing. |
+| **HeadPurchasing User** | Manager dan Verifikator SO, RFQ, Quotation dari website, serta kelola user buyer. | Menyetujui/menolak SO dan Quotation, mengelola user buyer. **Pembuatan SO hanya melalui website utama (pintu depan), bukan dari dashboard buyer**. |
 | **AdminPurchasing User** | **Membuat Sales Order (SO)** dari website, membuat RFQ, dan melacak pengiriman. | Membuat SO, membuat RFQ, tracking pengiriman. Role ini bersifat **opsional** dan hanya digunakan jika Buyer memilih **Skema 3 Role**. |
 | **FinanceBuyer User** | Pembayaran & invoice. | Upload bukti transfer, batalkan pembayaran. |
 
@@ -120,8 +120,8 @@ Sistem mendukung siklus lengkap:
 | **SalesAdmin User** | Dashboard Penjualan, Buyer, RFQ, Quotation, CMS (Artikel/Review). |
 | **Purchasing User** | Dashboard Operasional, Principal, Supplier, **Draft PO (Otorisasi)**, **Inbound Receiving (Scan QR)**, Konsolidasi Monitor. |
 | **Finance User** | Dashboard Keuangan, Payment Pending, VA Monitoring, TOP Aging, Dispute/Refund, **Hutang Principal (Pecel)**. |
-| **HeadPurchasing User** | Dashboard Company, **Manage dan Verifikator SO, RFQ, Quotation (Inbox)**, Histori Transaksi, Kelola User Buyer. Jika Buyer menggunakan **Skema 2 Role**, menu HeadPurchasing juga mencakup **Buat SO**, RFQ, dan Tracking Pengiriman. |
-| **AdminPurchasing User** | **Buat SO**, RFQ, Tracking Pengiriman, Review. Menu ini hanya muncul jika Buyer menggunakan **Skema 3 Role**. |
+| **HeadPurchasing User** | Dashboard Company, **Manage dan Verifikator SO, RFQ, Quotation (Inbox)**, Histori Transaksi, Kelola User Buyer. |
+| **AdminPurchasing User** | **Buat SO**, RFQ, Tracking Pengiriman, Review. **Catatan:** Pembuatan SO/RFQ hanya melalui website utama (pintu depan).** Menu ini hanya muncul jika Buyer menggunakan **Skema 3 Role**. |
 | **FinanceBuyer User** | Pembayaran, Upload Bukti Transfer, Invoice (status "Current"). |
 | **SalesPrincipal User** | Dashboard Principal, **PO Masuk**, **Buat Inbound & Cetak Label QR**, Konfirmasi Pengiriman, **View Invoice Buyer**. |
 | **ProductManager User** | Kelola Produk (Berat, Dimensi, Harga, Stok). |
@@ -206,15 +206,14 @@ Sistem mendukung siklus lengkap:
 
 ### 6.2 Alur Sales Order (SO) oleh Buyer
 
-- Pembuat SO login dan memilih produk dari katalog. SO dapat dibuat oleh HeadPurchasing atau AdminPurchasing, tergantung struktur role Buyer dan user yang membuat SO.
-- HeadPurchasing dapat membuat SO baik pada Skema 2 Role maupun Skema 3 Role. Jika SO dibuat langsung oleh HeadPurchasing, maka SO tidak memerlukan approval HeadPurchasing lagi karena HeadPurchasing berperan sebagai pembuat sekaligus otorisator.
-- Pada **Skema 2 Role**, Buyer hanya memiliki HeadPurchasing dan FinanceBuyer. Dalam skema ini, SO dibuat oleh HeadPurchasing dan langsung masuk ke status **In Review** untuk ditinjau oleh SalesAdmin internal OfficeSupply.
-- Pada **Skema 3 Role**, Buyer memiliki AdminPurchasing, HeadPurchasing, dan FinanceBuyer. Dalam skema ini, SO dapat dibuat oleh AdminPurchasing atau HeadPurchasing.
-- Jika SO pada Skema 3 Role dibuat oleh AdminPurchasing, maka status awal SO adalah **Submitted** dan wajib dikirimkan ke HeadPurchasing untuk otorisasi sebelum dapat diproses lebih lanjut.
-- HeadPurchasing dapat memberikan keputusan terhadap SO yang dibuat oleh AdminPurchasing, yaitu **Approved** atau **Rejected**.
-- Jika SO **Rejected**, maka SO dihentikan atau dikembalikan kepada AdminPurchasing untuk perbaikan sesuai catatan dari HeadPurchasing.
+- **Pembuatan SO hanya dilakukan dari website utama (pintu depan)**.
+- Setelah SO dibuat di website utama, SO masuk ke proses approval/verifikasi di dashboard buyer sesuai struktur role:
+  - Pada **Skema 2 Role** (HeadPurchasing + FinanceBuyer), SO yang dibuat oleh website utama langsung menunggu verifikasi HeadPurchasing.
+  - Pada **Skema 3 Role** (HeadPurchasing + AdminPurchasing + FinanceBuyer), AdminPurchasing dapat membuat SO (di website utama) dan HeadPurchasing melakukan approval/verifikasi.
+- HeadPurchasing memberikan keputusan terhadap SO: **Approved** atau **Rejected**.
+- Jika SO **Rejected**, maka SO dihentikan atau dikembalikan untuk perbaikan sesuai catatan dari HeadPurchasing.
 - Jika SO **Approved**, maka status SO berubah menjadi **In Review** untuk ditinjau oleh SalesAdmin internal OfficeSupply.
-- Jika SO dibuat langsung oleh HeadPurchasing, baik pada Skema 2 Role maupun Skema 3 Role, maka SO tidak melalui status Submitted untuk approval Buyer. SO langsung masuk ke status **In Review**. Sistem tetap mencatat confirmation atau approval oleh HeadPurchasing untuk kebutuhan audit trail.
+- Sistem tetap mencatat approval HeadPurchasing untuk kebutuhan audit trail.
 - Sistem melakukan validasi wajib: cek berat dan dimensi produk. Jika ada produk yang belum memiliki berat atau dimensi, maka SO diblokir dan tidak dapat dilanjutkan.
 - Sistem mengelompokkan produk berdasarkan `origin_id` untuk mendukung pengiriman multi-origin, seperti Klaten, Jakarta, dan origin lainnya.
 - Sistem menghitung **Chargeable Weight per origin**, yaitu nilai terbesar antara berat aktual dan berat dimensi.

@@ -14,16 +14,18 @@ export interface User {
 
 // ─── Sales Order ──────────────────────────────────────────
 export type SoStatus =
+  // PRD SO: Draft, Submitted, Rejected, In Review, Cannot Process, Confirmed, In Process, Delivery, Expired, Done
   | "draft"
   | "submitted"
   | "rejected"
-  | "approved"
+  | "in_review"
+  | "cannot_process"
   | "confirmed"
-  | "sent_to_principal"
-  | "consolidating"
-  | "ready_to_be_picked_up"
-  | "delivered"
-  | "expired";
+  | "in_process"
+  | "delivery"
+  | "expired"
+  | "done";
+
 
 export interface SalesOrder {
   id: string;
@@ -58,7 +60,14 @@ export interface ShippingOrigin {
 }
 
 // ─── RFQ ──────────────────────────────────────────────────
-export type RfqStatus = "rfq_draft" | "rfq_submitted" | "rfq_in_review" | "rfq_rejected" | "rfq_expired";
+// PRD RFQ: Draft, Submitted, Rejected, In Review, Ready For Quotation
+export type RfqStatus =
+  | "rfq_draft"
+  | "rfq_submitted"
+  | "rfq_rejected"
+  | "rfq_in_review"
+  | "rfq_ready_for_quotation";
+
 
 export interface Rfq {
   id: string;
@@ -78,7 +87,18 @@ export interface RfqItem {
 }
 
 // ─── Quotation ────────────────────────────────────────────
-export type QnStatus = "quotation_draft" | "quotation_sent" | "quotation_under_revision" | "quotation_rejected";
+// PRD Quotation: Draft, Issued, Approved, Rejected, Expired
+//
+// NOTE: UI/mock-data saat ini memakai status `quotation_sent`
+// (lihat buyer-dashboard/src/lib/mock-data.ts).
+export type QnStatus =
+  | "quotation_draft"
+  | "quotation_issued"
+  | "quotation_sent"
+  | "quotation_approved"
+  | "quotation_rejected"
+  | "quotation_expired";
+
 
 export interface Quotation {
   id: string;

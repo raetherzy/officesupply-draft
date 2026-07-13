@@ -6,36 +6,51 @@ import Link from "next/link";
 const kpiCards = [
   { label: "Total Belanja Bulan Ini", value: `Rp ${(dashboardStats.total_spent_this_month / 1000000).toFixed(1)}M`, href: undefined },
   { label: "SO Submitted", value: dashboardStats.submitted_so, href: "/so" },
-  { label: "Contract Aktif", value: dashboardStats.active_contracts, href: "/contract" },
   { label: "Pengiriman Aktif", value: dashboardStats.in_transit_shipments, href: "/tracking" },
   { label: "Invoice Current", value: dashboardStats.current_invoices, href: "/invoice" },
   { label: "Total Order", value: dashboardStats.total_orders, href: undefined },
 ];
 
 const statusStyles: Record<string, string> = {
+  // PRD SO statuses
   draft: "bg-[#f5f5f5] text-[#666666]",
   submitted: "bg-[#fef3c7] text-[#92400e]",
   rejected: "bg-[#fee2e2] text-[#991b1b]",
-  approved: "bg-[#dbeafe] text-[#1e40af]",
+  in_review: "bg-[#dbeafe] text-[#1e40af]",
+  cannot_process: "bg-[#fee2e2] text-[#991b1b]",
   confirmed: "bg-[#e0e7ff] text-[#3730a3]",
+  in_process: "bg-[#fce7f3] text-[#9d174d]",
+  delivery: "bg-[#d1fae5] text-[#065f46]",
+  expired: "bg-[#f5f5f5] text-[#999999]",
+  done: "bg-[#bbf7d0] text-[#166534]",
+
+  // Legacy / optional statuses from earlier mocks (keep if used somewhere else)
+  approved: "bg-[#dbeafe] text-[#1e40af]",
   sent_to_principal: "bg-[#fce7f3] text-[#9d174d]",
   consolidating: "bg-[#fefce8] text-[#854d0e]",
   ready_to_be_picked_up: "bg-[#ede9fe] text-[#5b21b6]",
   delivered: "bg-[#d1fae5] text-[#065f46]",
-  expired: "bg-[#f5f5f5] text-[#999999]",
 };
 
 const statusLabels: Record<string, string> = {
+  // PRD SO statuses
   draft: "Draft",
   submitted: "Submitted",
   rejected: "Rejected",
-  approved: "Approved",
+  in_review: "In Review",
+  cannot_process: "Cannot Process",
   confirmed: "Confirmed",
+  in_process: "In Process",
+  delivery: "Delivery",
+  expired: "Expired",
+  done: "Done",
+
+  // Legacy / optional statuses from earlier mocks (keep if used somewhere else)
+  approved: "Approved",
   sent_to_principal: "Sent to Principal",
   consolidating: "Consolidating",
   ready_to_be_picked_up: "Ready Pickup",
   delivered: "Delivered",
-  expired: "Expired",
 };
 
 const paymentBadge: Record<string, string> = {

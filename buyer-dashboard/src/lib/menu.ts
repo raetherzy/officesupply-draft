@@ -32,12 +32,6 @@ export const menuItems: MenuItem[] = [
     roles: ["head_purchasing"],
   },
   {
-    label: "Contract",
-    href: "/contract",
-    icon: "shield",
-    roles: ["head_purchasing"],
-  },
-  {
     label: "Tracking",
     href: "/tracking",
     icon: "truck",
